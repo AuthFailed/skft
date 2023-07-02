@@ -1,4 +1,4 @@
-Hi!
+The script was written primarily for myself, but by request was placed in the public. Ideas and prs are welcome :)
 
 # Versions
 There three versions of this scripts:
@@ -61,6 +61,7 @@ And after executing of script we get this:
 ```
 XXXX-XXXX-XXXX
 AAAA-BBBB-CCCC
-DDDD-EEEE-FFFFq
+DDDD-EEEE-FFFF
+```
 
 The script is ideal for bulk key activation via [ASF](https://github.com/JustArchiNET/ArchiSteamFarm).
