@@ -18,7 +18,7 @@ Just download script and run.
 1. Download **extract_keys.bat**
 2. Open CMD and run
 ```
-extract_keys.bat input_file_path output_file
+extract_keys.bat input1.txt input2.txt input3.txt
 ```
 in same directory with script
 
@@ -30,7 +30,7 @@ chmod +x extract_keys.sh
 ```
 Then launch script:
 ```
-./extract_keys.sh input_file_path output_file
+./extract_keys.sh input1.txt input2.txt input3.txt
 ```
 
 ## Python
@@ -38,10 +38,10 @@ Then launch script:
 2. Download **extract_keys.py**
 3. Then, in terminal run:
 ```
-python extract_keys.py input_file_path output_file
+python extract_keys.py input1.txt input2.txt input3.txt
 ```
 
-In all this cases output file will be placed in the same directory with script
+In all this cases output file will be placed in the same directory with script, file will be named ```extracted_keys.txt```
 
 # Example
 Let's imagine that you have a file with keys, but in addition to the keys, it has extra text.
