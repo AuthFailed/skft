@@ -1,32 +1,34 @@
 import sys
-import os
 import re
 
-if len(sys.argv) != 3:
-    print("Usage: {} <input_file> <output_file>".format(sys.argv[0]))
+if len(sys.argv) < 2:
+    print("Usage: python script.py input_file1 [input_file2 ...]")
     sys.exit(1)
 
-input_file = sys.argv[1]
-output_file = sys.argv[2]
+output_file = "extracted_keys.txt"
 
 # Remove output file if it already exists
-if os.path.isfile(output_file):
+try:
     os.remove(output_file)
+except FileNotFoundError:
+    pass
 
 # Regular expression pattern
 pattern = r"[A-Z0-9]{4,5}-[A-Z0-9]{4,5}-[A-Z0-9]{4,5}"
+count = 0
 
-# Extract keys from input file using grep and regex
-with open(input_file, 'r') as f:
-    content = f.read()
-    grep_result = re.findall(pattern, content)
-    key_count = len(grep_result)
+# Loop through each input file
+for input_file in sys.argv[1:]:
+    with open(input_file, 'r') as file:
+        content = file.read()
+        matches = re.findall(pattern, content)
 
-if not grep_result:
-    print("No keys found in {}.".format(input_file))
-else:
-    # Write the extracted keys to output file
-    with open(output_file, 'w') as f:
-        f.write('\n'.join(grep_result))
-    print("Extraction complete. {} key(s) have been extracted to {}/{}.".format(
-        key_count, os.getcwd(), output_file))
+        with open(output_file, 'a') as output:
+            for match in matches:
+                output.write(match + '\n')
+
+        match_count = len(matches)
+        count += match_count
+
+print("Extraction complete. Keys from selected files have been added to {}.".format(output_file))
+print("Total extracted keys: {}".format(count))

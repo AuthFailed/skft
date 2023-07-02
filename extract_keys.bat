@@ -1,32 +1,31 @@
 @echo off
 
-REM Check if the number of arguments is correct
-if "%~2"=="" (
-  echo Usage: %0 [input_file] [output_file]
+if "%~1"=="" (
+  echo Usage: %0 input_file1 [input_file2 ...]
   exit /b 1
 )
 
-set input_file=%~1
-set output_file=%~2
+set "output_file=extracted_keys.txt"
 
-REM Remove output file if it already exists
+rem Remove output file if it already exists
 if exist "%output_file%" (
   del "%output_file%"
 )
 
-REM Regular expression pattern
-set pattern=[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]-[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]-[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]
+rem Regular expression pattern
+set "pattern=[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]-[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]-[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]"
 
-REM Extract keys from input file using findstr and regex
-findstr /r "%pattern%" "%input_file%" >> "%output_file%"
+set /a count=0
 
-REM Check if keys were found or not
-if %errorlevel% equ 0 (
-  echo No keys found in %input_file%.
-) else (
-  REM Count the number of keys
-  set /a key_count=0
-  for /f %%A in ('type "%output_file%" ^| find /c /v ""') do set /a key_count=%%A
+rem Loop through each input file
+for %%I in (%*) do (
+  rem Extract matching rows from current input file using findstr and regex
+  findstr /r /c:"%pattern%" "%%I" >> "%output_file%"
 
-  echo Extraction complete. %key_count% key(s) have been extracted to %CD%\%output_file%.
+  rem Count the number of matches in current input file
+  for /f %%C in ('type "%%I" ^| findstr /r /c:"%pattern%" /c:".*" /n ^| find /c ":"') do set /a match_count=%%C
+  set /a count+=match_count
 )
+
+echo Extraction complete. Keys from selected files have been added to %cd%\%output_file%.
+echo Total extracted keys: %count%

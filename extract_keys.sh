@@ -1,12 +1,11 @@
 #!/bin/bash
 
-if [ "$#" -ne 2 ]; then
-  echo "Usage: $0 <input_file> <output_file>"
+if [ "$#" -lt 1 ]; then
+  echo "Usage: $0 <input_file1> [<input_file2> ...]"
   exit 1
 fi
 
-input_file="$1"
-output_file="$2"
+output_file="extracted_keys.txt"
 
 # Remove output file if it already exists
 if [ -f "$output_file" ]; then
@@ -15,9 +14,17 @@ fi
 
 # Regular expression pattern
 pattern="[A-Z0-9]{4,5}-[A-Z0-9]{4,5}-[A-Z0-9]{4,5}"
+count=0
 
-# Extract matching rows from input file using grep and regex
-grep -Eo "$pattern" "$input_file" >> "$output_file"
+# Loop through each input file
+for input_file in "$@"; do
+  # Extract matching rows from current input file using grep and regex
+  grep -Eo "$pattern" "$input_file" >> "$output_file"
 
-echo "Extraction complete. Matching rows have been added to $PWD/$output_file."
+  # Count the number of matches in current input file
+  match_count=$(grep -Eo "$pattern" "$input_file" | wc -l)
+  count=$((count + match_count))
+done
 
+echo "Extraction complete. Keys from selected files have been added to $PWD/$output_file."
+echo "Total extracted keys: $count"
