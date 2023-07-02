@@ -69,4 +69,11 @@ AAAA-BBBB-CCCC
 DDDD-EEEE-FFFF
 ```
 
+
+# Additional info
+There is support for services like https://cheapkeys.ovh/table.php.
+For parsing game names with keys like ```AAAA-BBBB-CCCC GAME-NAME``` just add -n (or --game-name) flag to script.
+![Example image](image.png)
+
+**Warning**, use this flag only for this service or it's likely to crash script
 The script is ideal for bulk key activation via [ASF](https://github.com/JustArchiNET/ArchiSteamFarm).
